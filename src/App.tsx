@@ -1,10 +1,11 @@
 import React from 'react';
-import './App.css';
+import GlobalStyle from './styles/global';
 
-function App() {
-  return (
-    <h1>Go Barber</h1>
-  );
-}
+const App: React.FC = () => (
+  <>
+    <h1>GoBarber Web</h1>
+    <GlobalStyle />
+  </>
+);
 
 export default App;
