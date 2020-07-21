@@ -24,6 +24,8 @@ module.exports = {
   },
   "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
   "rules": {
+    "react/jsx-props-no-spreading": "off",
+    "react/prop-types": "off",
     "react/jsx-one-expression-per-line": "off",
     "prettier/prettier": ["error", {}, {
       "fileInfoOptions": {
