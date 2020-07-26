@@ -1,13 +1,19 @@
-import React, { useCallback } from 'react';
+/* eslint-disable no-unused-expressions */
+import React, { useCallback, useRef } from 'react';
 import { FiArrowLeft, FiMail, FiLock, FiUser } from 'react-icons/fi';
 import { Form } from '@unform/web';
+import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 import { Container, BackGround, Content } from './style';
 import logo from '../../assets/logo.svg';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
+import getValidationErrors from '../../utils/getValidationErrors';
+
 const SignUp: React.FC = () => {
+  const formRef = useRef<FormHandles>(null);
+
   const handleSubmit = useCallback(async (data: object) => {
     try {
       const schema = Yup.object().shape({
@@ -15,12 +21,15 @@ const SignUp: React.FC = () => {
         email: Yup.string()
           .required('E-mail é obrigatório')
           .email('digite um e-mail válido'),
-        password: Yup.string().required('Senha é Obrigatória').min(6),
+        password: Yup.string().min(6, 'senha precisa ter no mínimo 6 dígitos'),
       });
 
-      await schema.validate(data);
+      await schema.validate(data, {
+        abortEarly: false,
+      });
     } catch (err) {
-      console.log(err);
+      const errors = getValidationErrors(err);
+      formRef.current?.setErrors(errors);
     }
   }, []);
 
@@ -30,18 +39,19 @@ const SignUp: React.FC = () => {
       <Content>
         <img src={logo} alt={logo} />
 
-        <Form onSubmit={handleSubmit}>
+        <Form ref={formRef} onSubmit={handleSubmit}>
           <h1>Cadastre-se Aqui</h1>
 
           <Input
             type="text"
             icon={FiUser}
-            name="user"
+            name="name"
             placeholder="Nome de Usuário"
           />
           <Input type="text" icon={FiMail} name="email" placeholder="E-mail" />
 
           <Input
+            autoComplete="on"
             type="password"
             icon={FiLock}
             name="password"

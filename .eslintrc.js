@@ -24,6 +24,7 @@ module.exports = {
   },
   "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
   "rules": {
+    "mo-unused-expressions": "off",
     "react/jsx-props-no-spreading": "off",
     "react/prop-types": "off",
     "react/jsx-one-expression-per-line": "off",
